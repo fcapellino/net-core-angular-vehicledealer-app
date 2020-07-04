@@ -1,0 +1,53 @@
+<div class="sidebar-wrapper">
+    <div class="logo" style="height:60px;">
+        <a href="http://www.creative-tim.com" class="simple-text">
+            <div class="logo-img">
+                <img src="/assets/img/angular2-logo-white.png" />
+            </div>
+            VEHICLE DEALER
+        </a>
+    </div>
+    <ul class="nav responsive-nav">
+        <li *ngIf="isMobileMenu()">
+            <a class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-dashboard"></i>
+                <p class="hidden-lg hidden-md">Dashboard</p>
+            </a>
+        </li>
+        <li *ngIf="isMobileMenu()">
+            <a href="">
+                <p>Account</p>
+            </a>
+        </li>
+        <li class="dropdown" *ngIf="isMobileMenu()">
+            <a class="dropdown-toggle" data-toggle="dropdown">
+                <p>
+                    Dropdown
+                    <b class="caret"></b>
+                </p>
+
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="#">Action</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something</a></li>
+                <li><a href="#">Another action</a></li>
+                <li><a href="#">Something</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+            </ul>
+        </li>
+        <li *ngIf="isMobileMenu()">
+            <a>
+                <p>Log out</p>
+            </a>
+        </li>
+        <li class="separator hidden-lg hidden-md" *ngIf="isMobileMenu()"></li>
+        <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}}">
+            <a [routerLink]="[menuItem.path]">
+                <i class="{{menuItem.icon}}"></i>
+                <p>{{menuItem.title}}</p>
+            </a>
+        </li>
+    </ul>
+</div>
