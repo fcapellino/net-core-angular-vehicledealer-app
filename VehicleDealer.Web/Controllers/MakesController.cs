@@ -28,11 +28,18 @@
         {
             var items = await _applicationDbContext.Set<Make>()
                     .Include(x => x.Models)
+                .OrderBy(x => x.Name)
                 .Select(x => new
                 {
                     x.Id,
                     x.Name,
-                    Models = x.Models.Select(m => new { m.Id, m.Name })
+                    Models = x.Models
+                        .OrderBy(m => m.Name)
+                        .Select(m => new
+                        {
+                            m.Id,
+                            m.Name
+                        })
                 })
                 .ToListAsync();
 

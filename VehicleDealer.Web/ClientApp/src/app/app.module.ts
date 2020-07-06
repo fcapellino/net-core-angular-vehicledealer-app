@@ -10,8 +10,11 @@ import { FooterModule } from './shared/footer/footer.module';
 import { SidebarModule } from './sidebar/sidebar.module';
 
 import { AppComponent } from './app.component';
-
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { VehicleFormComponent } from './vehicle-form/vehicle-form.component';
+
+import { MakeService } from '../services/make.service';
+import { FeatureService } from '../services/feature.service';
 
 @NgModule({
     imports: [
@@ -26,9 +29,13 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
     ],
     declarations: [
         AppComponent,
-        AdminLayoutComponent
+        AdminLayoutComponent,
+        VehicleFormComponent
     ],
-    providers: [],
+    providers: [
+        MakeService,
+        FeatureService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

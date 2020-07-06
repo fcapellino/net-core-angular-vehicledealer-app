@@ -27,7 +27,12 @@
         public async Task<IActionResult> GetFeaturesList()
         {
             var items = await _applicationDbContext.Set<Feature>()
-                .Select(x => new { x.Id, x.Name })
+                .OrderBy(x => x.Name)
+                .Select(x => new
+                {
+                    x.Id,
+                    x.Name
+                })
                 .ToListAsync();
 
             return new SuccessResult(new ListResource(items));

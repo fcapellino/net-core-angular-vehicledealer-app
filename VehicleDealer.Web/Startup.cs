@@ -38,6 +38,10 @@ namespace VehicleDealer.Web
             services.AddRazorPages();
 
             services
+                .AddRouting(options =>
+                {
+                    options.LowercaseUrls = true;
+                })
                 .AddControllersWithViews(options =>
                 {
                     var authorizationPolicy = new AuthorizationPolicyBuilder(new[] { JwtBearerDefaults.AuthenticationScheme })

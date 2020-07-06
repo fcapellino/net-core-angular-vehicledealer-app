@@ -28,7 +28,10 @@
         public async Task<IActionResult> GetVehicle(Guid id)
         {
             var vehicle = await _applicationDbContext.Set<Vehicle>()
+                    .Include(x => x.Model)
+                        .ThenInclude(m => m.Make)
                     .Include(x => x.Features)
+                        .ThenInclude(vf => vf.Feature)
                     .Include(x => x.Images)
                 .FirstOrDefaultAsync(x => x.Id.Equals(id));
 
@@ -43,9 +46,24 @@
                 vehicle.ContactName,
                 vehicle.ContactEmail,
                 vehicle.ContactPhone,
-                vehicle.ModelId,
-                FeaturesIds = vehicle.Features.Select(f => f.FeatureId),
+                Make = new
+                {
+                    vehicle.Model.Make.Id,
+                    vehicle.Model.Make.Name
+                },
+                Model = new
+                {
+                    vehicle.Model.Id,
+                    vehicle.Model.Name,
+                },
+                Features = vehicle.Features
+                    .Select(f => new
+                    {
+                        f.Feature.Id,
+                        f.Feature.Name
+                    }),
                 Images = vehicle.Images.Select(i => i.FileName),
+                vehicle.LastUpdate,
                 vehicle.IsRegistered
             };
 
