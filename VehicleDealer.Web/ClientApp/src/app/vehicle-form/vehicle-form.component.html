@@ -1,0 +1,153 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">{{ isNewVehicle() ? 'New Vehicle': 'Edit Vehicle' }}</h4>
+                        <p class="category">Vestibulum in luctus tortor, eu posuere metus.</p>
+                    </div>
+                    <div class="content">
+                        <form name="vehicleForm" #vehicleForm="ngForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Make</label>
+                                        <select class="form-control"
+                                                [(ngModel)]="vehicle.makeId"
+                                                (change)="onMakeChange()"
+                                                name="makeId"
+                                                #makeId="ngModel"
+                                                [uuid]="'all'">
+                                            <option disabled selected value="0" style="font-style:italic;">select an option</option>
+                                            <option *ngFor="let m of makesList" value="{{ m.id }}">{{ m.name }}</option>
+                                        </select>
+                                        <small class="text-danger" *ngIf="makeId.invalid && (makeId.dirty || makeId.touched)">This field is required. </small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Model</label>
+                                        <select class="form-control"
+                                                [(ngModel)]="vehicle.modelId"
+                                                name="modelId"
+                                                #modelId="ngModel"
+                                                [uuid]="'all'">
+                                            <option disabled selected value="0" style="font-style:italic;">select an option</option>
+                                            <option *ngFor="let m of modelsList" value="{{ m.id }}">{{ m.name }}</option>
+                                        </select>
+                                        <small class="text-danger" *ngIf="modelId.invalid && (modelId.dirty || modelId.touched)">This field is required. </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Features</label>
+                                    <div class="checkbox form-check" *ngFor="let f of featuresList">
+                                        <input class="form-check-input" type="checkbox" value="" (change)="onFeatureToggle(f.id, $event)" id="feature_{{ f.id }}" [checked]="isFeatureIncluded(f.id)">
+                                        <label class="form-check-label" for="feature_{{ f.id }}">
+                                            {{ f.name }}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Is this vehicle registered?</label>
+                                    <div>
+                                        <div class="radio radio-inline" style="padding:0px;">
+                                            <input class="form-check-input"
+                                                   type="radio"
+                                                   [(ngModel)]="vehicle.isRegistered"
+                                                   id="registered"
+                                                   name="isRegistered"
+                                                   #isRegistered="ngModel"
+                                                   required
+                                                   [value]="true">
+                                            <label class="form-check-label" for="registered">YES</label>
+                                        </div>
+                                        <div class="radio radio-inline" style="padding:0px;">
+                                            <input class="form-check-input"
+                                                   type="radio"
+                                                   [(ngModel)]="vehicle.isRegistered"
+                                                   id="notRegistered"
+                                                   name="isRegistered"
+                                                   #isRegistered="ngModel"
+                                                   required
+                                                   [value]="false">
+                                            <label class="form-check-label" for="notRegistered">NO</label>
+                                        </div>
+                                    </div>
+                                    <small class="text-danger" *ngIf="isRegistered.invalid && (isRegistered.dirty || isRegistered.touched)">This field is required. </small>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Contact</h4>
+                        <p class="category">Etiam sodales ullamcorper eros.</p>
+                    </div>
+                    <div class="content">
+                        <form name="contactForm" #contactForm="ngForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Contact Name</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               name="contactName"
+                                               #contactName="ngModel"
+                                               [(ngModel)]="vehicle.contactName"
+                                               trim
+                                               notNullOrEmpty>
+                                        <small class="text-danger" *ngIf="contactName.invalid && (contactName.dirty || contactName.touched)">This field is required. </small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Contact Phone</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               name="contactPhone"
+                                               #contactPhone="ngModel"
+                                               [(ngModel)]="vehicle.contactPhone"
+                                               trim
+                                               notNullOrEmpty>
+                                        <small class="text-danger" *ngIf="contactPhone.invalid && (contactPhone.dirty || contactPhone.touched)">This field is required. </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Contact Email</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               name="contactEmail"
+                                               #contactEmail="ngModel"
+                                               [(ngModel)]="vehicle.contactEmail"
+                                               trim
+                                               ngvemail>
+                                        <small class="text-danger" *ngIf="contactEmail.invalid && contactEmail.dirty">Please enter a valid email address. </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="content">
+                        <form name="saveForm" (ngSubmit)="submit($event)">
+                            <button type="submit" class="btn btn-info btn-fill pull-right" [disabled]="pendingRequest">Accept</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
