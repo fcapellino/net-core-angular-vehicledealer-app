@@ -1,0 +1,131 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <div class="row">
+                            <div class="col-xs-9">
+                                <h4 class="title">Vehicles List</h4>
+                                <p class="category">Ut elementum non lorem at iaculis.</p>
+                            </div>
+                            <div class="col-xs-3">
+                                <div *ngIf="isUserInRole('administrator')">
+                                    <button type="button" class="btn btn-info btn-fill pull-right" (click)="newVehicle()">New Vehicle</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <form name="vehiclesListForm">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Make</label>
+                                    <div class="input-group">
+                                        <select class="form-control"
+                                                [(ngModel)]="vehiclesTable.filters.makeId"
+                                                (change)="[onMakeChange()]"
+                                                name="makeId">
+                                            <option disabled selected value="0" style="font-style:italic;">select an option</option>
+                                            <option *ngFor="let m of makesList" value="{{ m.id }}">{{ m.name }}</option>
+                                        </select>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" (click)="clearSelectedMake()">
+                                                <i class="glyphicon glyphicon-remove" style="top:3px;"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Model</label>
+                                    <div class="input-group">
+                                        <select class="form-control"
+                                                [(ngModel)]="vehiclesTable.filters.modelId"
+                                                name="modelId">
+                                            <option disabled selected value="0" style="font-style:italic;">select an option</option>
+                                            <option *ngFor="let m of modelsList" value="{{ m.id }}">{{ m.name }}</option>
+                                        </select>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" (click)="clearSelectedModel()">
+                                                <i class="glyphicon glyphicon-remove" style="top:3px;"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Search</label>
+                                    <div class="input-group">
+                                        <input type="text"
+                                               class="form-control"
+                                               [(ngModel)]="vehiclesTable.filters.searchQuery"
+                                               name="searchQuery">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" (click)="clearSearchQuery()">
+                                                <i class="glyphicon glyphicon-remove" style="top:3px;"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="content table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th *ngFor="let header of vehiclesTable.headers"
+                                        [className]="header.class"
+                                        (click)="sortBy(header)">
+                                        {{ header.text }}
+                                        <span class="glyphicon"
+                                              [ngClass]="{'glyphicon-arrow-up': sortStatus(header) === 'asc', 'glyphicon-arrow-down' : sortStatus(header) === 'desc' }"></span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of vehiclesTable.itemsList">
+                                    <td>{{ getItemIndex(item) }}</td>
+                                    <td>{{ item.make.name }}</td>
+                                    <td>{{ item.model.name }}</td>
+                                    <td>{{ item.contactName }}</td>
+                                    <td>{{ item.contactPhone }}</td>
+                                    <td class="td-actions text-right">
+                                        <button type="button"
+                                                rel="tooltip" title="View"
+                                                (click)="viewVehicle(item)"
+                                                class="btn btn-default btn-simple btn-xs">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                        <button type="button"
+                                                rel="tooltip" title="Edit"
+                                                (click)="editVehicle(item)"
+                                                class="btn btn-info btn-simple btn-xs"
+                                                [disabled]="!isUserInRole('administrator')">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                        <button type="button"
+                                                rel="tooltip" title="Images"
+                                                (click)="viewImages(item)"
+                                                class="btn btn-warning btn-simple btn-xs">
+                                            <i class="fa fa-picture-o"></i>
+                                        </button>
+                                        <button type="button"
+                                                rel="tooltip" title="Delete"
+                                                (click)="deleteVehicle(item)"
+                                                class="btn btn-danger btn-simple btn-xs"
+                                                [disabled]="!isUserInRole('administrator')">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="text-align:right;">
+                            <pagination [total-items]="vehiclesTable.totalItemCount" [page-size]="vehiclesTable.options.pageSize" (page-changed)="onPageChange($event)"></pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,101 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <div class="row">
+                            <div class="col-xs-9">
+                                <h4 class="title">Users List</h4>
+                                <p class="category">Ut elementum non lorem at iaculis.</p>
+                            </div>
+                            <div class="col-xs-3">
+                                <div *ngIf="isUserInRole('administrator')">
+                                    <button type="button" class="btn btn-info btn-fill pull-right" (click)="newUser()">New User</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <form name="usersListForm">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Role</label>
+                                    <div class="input-group">
+                                        <select class="form-control"
+                                                [(ngModel)]="usersTable.filters.roleId"
+                                                name="roleId">
+                                            <option disabled selected value="0" style="font-style:italic;">select an option</option>
+                                            <option *ngFor="let r of rolesList" value="{{ r.id }}">{{ r.name }}</option>
+                                        </select>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" (click)="clearSelectedRole()">
+                                                <i class="glyphicon glyphicon-remove" style="top:3px;"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <label>Search</label>
+                                    <div class="input-group">
+                                        <input type="text"
+                                               class="form-control"
+                                               [(ngModel)]="usersTable.filters.searchQuery"
+                                               name="searchQuery">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" (click)="clearSearchQuery()">
+                                                <i class="glyphicon glyphicon-remove" style="top:3px;"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="content table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th *ngFor="let header of usersTable.headers"
+                                        [className]="header.class"
+                                        (click)="sortBy(header)">
+                                        {{ header.text }}
+                                        <span class="glyphicon"
+                                              [ngClass]="{'glyphicon-arrow-up': sortStatus(header) === 'asc', 'glyphicon-arrow-down' : sortStatus(header) === 'desc' }"></span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of usersTable.itemsList">
+                                    <td>{{ getItemIndex(item) }}</td>
+                                    <td>{{ item.firstName }}</td>
+                                    <td>{{ item.lastName }}</td>
+                                    <td>{{ item.email }}</td>
+                                    <td>{{ item.role.name.toUpperCase() }}</td>
+                                    <td class="td-actions text-right">
+                                        <button type="button"
+                                                rel="tooltip" title="View"
+                                                (click)="viewUser(item)"
+                                                class="btn btn-default btn-simple btn-xs">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                        <button type="button"
+                                                rel="tooltip" title="Delete"
+                                                (click)="deleteUser(item)"
+                                                class="btn btn-danger btn-simple btn-xs"
+                                                [disabled]="!isUserInRole('administrator')">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="text-align:right;">
+                            <pagination [total-items]="usersTable.totalItemCount" [page-size]="usersTable.options.pageSize" (page-changed)="onPageChange($event)"></pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
