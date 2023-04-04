@@ -1,0 +1,32 @@
+<div class="sidebar-wrapper">
+    <div class="logo" style="height:60px;">
+        <a href="http://www.creative-tim.com" class="simple-text">
+            <div class="logo-img">
+                <img src="/assets/img/angular2-logo-white.png" />
+            </div>
+            VEHICLE DEALER
+        </a>
+    </div>
+    <ul class="nav responsive-nav">
+        <li class="dropdown" *ngIf="isMobileMenu()">
+            <a class="dropdown-toggle" data-toggle="dropdown">
+                <p>
+                    Account
+                    <b class="caret"></b>
+                </p>
+
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="javascript:void(0);" (click)="logout()">Logout</a></li>
+                <li><a href="javascript:void(0);" (click)="changePassword()">Change password</a></li>
+            </ul>
+        </li>
+        <li class="separator hidden-lg hidden-md" *ngIf="isMobileMenu()"></li>
+        <li [routerLinkActive]="['active']" *ngFor="let menuItem of menuItems" class="{{menuItem.class}}" [routerLinkActiveOptions]="{exact: true}">
+            <a [routerLink]="[menuItem.path]">
+                <i class="{{menuItem.icon}}"></i>
+                <p>{{menuItem.title}}</p>
+            </a>
+        </li>
+    </ul>
+</div>

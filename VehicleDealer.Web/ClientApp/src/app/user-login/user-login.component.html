@@ -1,0 +1,60 @@
+<div class="main-content full-height">
+    <div class="container-fluid">
+        <div class="row justify-content-center" style=" margin-top:10%;">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Vehicle Dealer App</h4>
+                    </div>
+                    <div class="content">
+                        <form name="loginForm" #loginForm="ngForm" (ngSubmit)="submit($event)">
+                            <div class="row">
+                                <div class="col-md-12" style="padding:15px;">
+                                    <label>Email</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-user"></span>
+                                        </span>
+                                        <input type="text"
+                                               class="form-control"
+                                               name="email"
+                                               #email_="ngModel"
+                                               [(ngModel)]="credentials.email"
+                                               trim
+                                               required
+                                               ngvemail>
+                                    </div>
+                                    <small class="text-danger" *ngIf="email_.invalid && (email_.dirty || email_.touched)">This field is required. </small>
+                                </div>
+                                <div class="col-md-12" style="padding:15px;">
+                                    <label>Password</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-lock"></span>
+                                        </span>
+                                        <input type="password"
+                                               class="form-control"
+                                               name="password"
+                                               #password_="ngModel"
+                                               [(ngModel)]="credentials.password"
+                                               trim
+                                               maxlength="50"
+                                               notNullOrEmpty>
+                                    </div>
+                                    <small class="text-danger" *ngIf="password_.invalid && (password_.dirty || password_.touched)">This field is required. </small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <hr>
+                                <div class="col-xs-12">
+                                    <button type="submit" class="btn btn-info btn-fill pull-right" [disabled]="pendingRequest">Login</button>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

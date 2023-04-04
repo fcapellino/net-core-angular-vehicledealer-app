@@ -1,0 +1,29 @@
+<nav class="navbar navbar-default" style="height:60px;">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" (click)="sidebarToggle()">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <p>
+                            Account
+                            <b class="caret"></b>
+                        </p>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:void(0);" (click)="logout()">Logout</a></li>
+                        <li><a href="javascript:void(0);" (click)="changePassword()">Change password</a></li>
+                    </ul>
+                </li>
+                <li class="separator hidden-lg hidden-md"></li>
+            </ul>
+        </div>
+    </div>
+</nav>

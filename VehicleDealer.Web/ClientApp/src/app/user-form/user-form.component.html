@@ -1,0 +1,81 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">User Details</h4>
+                        <p class="category">Vestibulum in luctus tortor, eu posuere metus.</p>
+                    </div>
+                    <div class="content">
+                        <form name="userForm" #userForm="ngForm">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group col-xs-12" style="padding:0px;">
+                                        <label>Role</label>
+                                        <select class="form-control"
+                                                [(ngModel)]="user.roleId"
+                                                name="roleId"
+                                                #roleId="ngModel"
+                                                [uuid]="'all'">
+                                            <option disabled selected value="0" style="font-style:italic;">select an option</option>
+                                            <option *ngFor="let r of rolesList" value="{{ r.id }}">{{ r.name.toUpperCase() }}</option>
+                                        </select>
+                                        <small class="text-danger" *ngIf="roleId.invalid && (roleId.dirty || roleId.touched)">This field is required. </small>
+                                    </div>
+                                    <div class="form-group col-xs-6" style="padding-left:0px;">
+                                        <label>First Name</label>
+                                        <input type="text"
+                                                class="form-control"
+                                                name="firstName"
+                                                #firstName="ngModel"
+                                                [(ngModel)]="user.firstName"
+                                                trim
+                                                maxlength="30"
+                                                notNullOrEmpty>
+                                        <small class="text-danger" *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">This field is required. </small>
+                                    </div>
+                                    <div class="form-group col-xs-6" style="padding-right:0px;">
+                                        <label>Last Name</label>
+                                        <input type="text"
+                                                class="form-control"
+                                                name="lastName"
+                                                #lastName="ngModel"
+                                                [(ngModel)]="user.lastName"
+                                                trim
+                                                maxlength="30"
+                                                notNullOrEmpty>
+                                        <small class="text-danger" *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">This field is required. </small>
+                                    </div>
+                                    <div class="form-group col-xs-12" style="padding:0px;">
+                                        <label>Email</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               name="email"
+                                               #email="ngModel"
+                                               [(ngModel)]="user.email"
+                                               trim
+                                               required
+                                               ngvemail>
+                                        <small class="text-danger" *ngIf="email.invalid && (email.dirty || email.touched)">Please enter a valid email address. </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="content">
+                        <form name="detailsForm" (ngSubmit)="submit($event)">
+                            <button type="submit" class="btn btn-info btn-fill pull-right" [disabled]="pendingRequest">Accept</button>
+                            <button type="button" class="btn btn-danger btn-fill pull-right" [disabled]="pendingRequest" (click)="cancel()" style="margin-right:3px;">Cancel</button>
+                            <div class="clearfix"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
